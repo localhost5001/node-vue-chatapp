@@ -12,7 +12,9 @@
     "vue": "^3.2.45",
     "socket.io-client": "^4.5.4",
     "daisyui": "2.46.0",
-    "@vueuse/core": "9.9.0"
+    "@vueuse/core": "9.9.0",
+    "pinia":"2.0.28",
+    "vue-router": "4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
