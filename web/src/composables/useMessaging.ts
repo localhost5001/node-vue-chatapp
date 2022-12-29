@@ -1,24 +1,26 @@
 import { io, Socket } from 'socket.io-client'
 import { createGlobalState } from '@vueuse/core'
 import { ref, readonly } from 'vue'
+
+import type { MessageDto } from '@/models/messageDto'
 import type { Message } from '@/models/message'
 
 let socket: Socket | null = null
 
 const messagesState = createGlobalState(() => {
     const messages = ref<Message[]>([])
+    const userName = ref<string | null>(null)
+    const roomId = ref<string | null>(null)
 
-    const addMessage = (message: Message) => {
+    const addMessage = (message: MessageDto) => {
         messages.value.push(message)
     }
-    const addMessages = (newMessages: Message[]) => {
+    const addMessages = (newMessages: MessageDto[]) => {
         messages.value.push(...newMessages)
     }
     const clearMessages = () => {
         messages.value = []
     }
-
-    const userName = ref<string | null>(null)
 
     const setUsername = (name: string) => {
         userName.value = name
@@ -26,8 +28,6 @@ const messagesState = createGlobalState(() => {
     const clearUsername = () => {
         userName.value = null
     }
-
-    const roomId = ref<string | null>(null)
 
     const setRoomId = (id: string) => {
         roomId.value = id
@@ -67,7 +67,7 @@ const useMessaging = () => {
         socket.on('connect', () => {
             isConnected.value = true
         })
-        socket.on('serverMessage', (msg: string) => {
+        socket.on('serverMessage', (msg: MessageDto) => {
             addMessage(msg)
         })
     }

@@ -4,11 +4,13 @@ import { computed } from 'vue'
 export interface Props {
     start: boolean,
     msgText: string,
-    color: 'primary' | 'secondary'
+    color: 'primary' | 'secondary',
+    userName: string,
+    time: string,
 }
 
 const { color, msgText, start } = withDefaults(defineProps<Props>(), {
-    color: 'primary',
+    color: 'secondary',
     msgText: '',
     start: true
 })
@@ -23,7 +25,7 @@ const chatBubbleClass = computed(() => {
 const chatMsgClass = computed(() => {
     return {
         'chat-bubble': true,
-    [`chat-bubble-${color}`]: true
+        [`chat-bubble-${color}`]: true
     }
 })
 
@@ -32,6 +34,10 @@ const chatMsgClass = computed(() => {
 
 <template>
 <div :class="chatBubbleClass">
-  <div :class="chatMsgClass">{{msgText}}</div>
+    <div class="chat-header">
+        {{ userName }}
+        <time class="text-xs opacity-50">{{ time }}</time>
+    </div>
+    <div :class="chatMsgClass">{{msgText}}</div>
 </div>
 </template>
