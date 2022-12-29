@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
             return
         }
 
-        socket.to(user.roomId).emit('serverMessage', createMessage(user.name, msg))
+        io.to(user.roomId).emit('serverMessage', createMessage(user.name, msg))
     }) 
 })
 
