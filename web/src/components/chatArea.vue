@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+
+import { useMessaging } from '@/composables/useMessaging'
+import { useUserStore } from '@/store/user'
+
 import chatBubble, { Props } from '@/components/chatBubble.vue'
-import { messagesState } from '@/composables/useMessaging'
 
-const { messages: messageTexts, userName } = messagesState()
+const { messages } = useMessaging()
+const userStore = useUserStore()
 
-const msgs = computed<Props[]>(() => messageTexts.value.map((msg) => {
-    const isUsersMessage = userName.value === msg.userName
+const msgs = computed<Props[]>(() => messages.value.map((msg) => {
+    const isUsersMessage = userStore.name === msg.userName
     return {
         start: !isUsersMessage,
         msgText: msg.text,

@@ -22,10 +22,16 @@ io.on('connection', (socket) => {
             .emit('serverMessage', createMessage('Chat Bot', text))
     }
 
-    socket.on('joinRoom', ({userName, roomId}) => {
-        socket.join(roomId)
-        addUser(socket.id, roomId, userName)
-        broadCastMessage(`User ${userName } has joined the chat`, roomId)
+    socket.on('joinRoom', ({userName, roomName}) => {
+        socket.join(roomName)
+        addUser(socket.id, roomName, userName)
+        broadCastMessage(`User ${userName } has joined ${roomName}`, roomName)
+    })
+    socket.on('leaveRoom', ({userName, roomName}) => {
+        socket.leave(roomName)
+        userLeave(socket.id)
+        console.log(`User ${userName } has left ${roomName}`)
+        broadCastMessage(`User ${userName } has left ${roomName}`, roomName)
     })
 
     socket.on('disconnect', () => {
